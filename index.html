@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Electrical Engineering Calculator - Power, Current, Voltage, Energy and Cost Calculations">
+    <meta name="theme-color" content="#2196F3">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons for PWA -->
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    
+    <title>Electrical Engineering Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <span class="logo-icon">⚡</span>
+                Electrical Calculator
+            </h1>
+            <div class="header-controls">
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <button id="resetBtn" class="reset-btn" aria-label="Reset all calculations">
+                    <span class="reset-icon">🔄</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Input Section -->
+            <section class="input-section">
+                <h2>Input Parameters</h2>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="voltage" class="input-label">
+                            Voltage (V)
+                            <span class="tooltip" data-tooltip="Electrical potential difference in Volts">ⓘ</span>
+                        </label>
+                        <input type="number" id="voltage" class="input-field" placeholder="e.g., 230" step="0.1" min="0">
+                        <div class="unit-toggle">
+                            <button class="unit-btn active" data-unit="V">V</button>
+                            <button class="unit-btn" data-unit="kV">kV</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="current" class="input-label">
+                            Current (A)
+                            <span class="tooltip" data-tooltip="Electrical current flow in Amperes">ⓘ</span>
+                        </label>
+                        <input type="number" id="current" class="input-field" placeholder="e.g., 10" step="0.1" min="0">
+                        <div class="unit-toggle">
+                            <button class="unit-btn active" data-unit="A">A</button>
+                            <button class="unit-btn" data-unit="mA">mA</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="power" class="input-label">
+                            Power (W)
+                            <span class="tooltip" data-tooltip="Electrical power consumption in Watts">ⓘ</span>
+                        </label>
+                        <input type="number" id="power" class="input-field" placeholder="e.g., 2300" step="0.1" min="0">
+                        <div class="unit-toggle">
+                            <button class="unit-btn active" data-unit="W">W</button>
+                            <button class="unit-btn" data-unit="kW">kW</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="time" class="input-label">
+                            Time (h)
+                            <span class="tooltip" data-tooltip="Duration of usage in hours">ⓘ</span>
+                        </label>
+                        <input type="number" id="time" class="input-field" placeholder="e.g., 24" step="0.1" min="0">
+                        <div class="unit-toggle">
+                            <button class="unit-btn active" data-unit="h">h</button>
+                            <button class="unit-btn" data-unit="min">min</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="tariff" class="input-label">
+                            Tariff (₹/kWh)
+                            <span class="tooltip" data-tooltip="Cost per kilowatt-hour">ⓘ</span>
+                        </label>
+                        <input type="number" id="tariff" class="input-field" placeholder="e.g., 8.5" step="0.1" min="0">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section">
+                <h2>Calculations</h2>
+                <div class="results-grid">
+                    <div class="result-card" id="powerCard">
+                        <div class="result-header">
+                            <h3>Power Calculation</h3>
+                            <span class="result-icon">⚡</span>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-value" id="powerResult">--</div>
+                            <div class="result-formula" id="powerFormula">P = V × I</div>
+                            <div class="result-unit">Watts</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card" id="currentCard">
+                        <div class="result-header">
+                            <h3>Current Calculation</h3>
+                            <span class="result-icon">🔌</span>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-value" id="currentResult">--</div>
+                            <div class="result-formula" id="currentFormula">I = P ÷ V</div>
+                            <div class="result-unit">Amperes</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card" id="voltageCard">
+                        <div class="result-header">
+                            <h3>Voltage Calculation</h3>
+                            <span class="result-icon">⚡</span>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-value" id="voltageResult">--</div>
+                            <div class="result-formula" id="voltageFormula">V = P ÷ I</div>
+                            <div class="result-unit">Volts</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card" id="energyCard">
+                        <div class="result-header">
+                            <h3>Energy Consumption</h3>
+                            <span class="result-icon">🔋</span>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-value" id="energyResult">--</div>
+                            <div class="result-formula" id="energyFormula">E = P × t</div>
+                            <div class="result-unit">kWh</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card" id="costCard">
+                        <div class="result-header">
+                            <h3>Cost Calculation</h3>
+                            <span class="result-icon">💰</span>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-value" id="costResult">--</div>
+                            <div class="result-formula" id="costFormula">Cost = Energy × Tariff</div>
+                            <div class="result-unit">₹</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chart Section -->
+            <section class="chart-section">
+                <h2>Energy Usage Visualization</h2>
+                <div class="chart-container">
+                    <canvas id="energyChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-controls">
+                    <button id="downloadChart" class="btn btn-secondary">
+                        📊 Download Chart
+                    </button>
+                    <button id="exportCSV" class="btn btn-secondary">
+                        📄 Export CSV
+                    </button>
+                </div>
+            </section>
+
+            <!-- Recent Calculations -->
+            <section class="recent-section">
+                <h2>Recent Calculations</h2>
+                <div id="recentCalculations" class="recent-list">
+                    <p class="no-data">No recent calculations yet</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Electrical Engineering Calculator. Built with ❤️ for engineers.</p>
+            <p class="pwa-status" id="pwaStatus">Offline Ready</p>
+        </div>
+    </footer>
+
+    <!-- Service Worker Registration -->
+    <script src="script.js"></script>
+    <script>
+        // Register Service Worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                        document.getElementById('pwaStatus').textContent = 'PWA Ready';
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                        document.getElementById('pwaStatus').textContent = 'PWA Unavailable';
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
