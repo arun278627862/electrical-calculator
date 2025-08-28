@@ -250,11 +250,12 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ### Contact
 - **GitHub**: Create an issue or discussion
-- **Email**: [Your email here]
-- **Website**: [Your website here]
+- **Email**: [arun8941971190@gmail.com]
+- **Website**: [https://arun278627862.github.io/arunportfolio.com/]
 
 ---
 
 **Built with ❤️ for electrical engineers and students worldwide**
 
 *Last updated: December 2024*
+
